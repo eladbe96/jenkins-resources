@@ -4,8 +4,9 @@ curl -u "jenkins:1234" -H "$crumb" -X POST  http://jenkins.local:8080/job/backup
 
 WHAT DID WORK FOR ME:
 
-########Getting the Crumb########
-curl -v -X GET http://<jenkins-URL>:8080/crumbIssuer/api/json --user <user>:<pass>
+echo "########Getting the Crumb########"
+crumb=$(curl -u "jenkins-user:zubur1" -s 'http://jenkins.local:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)')
 
-########Running the job########
-curl -X POST http://<jenkins-URL>:8080/job/ENV/build --user <user>:<pass> -H 'Jenkins-Crumb:crumb'
+echo "########Running the job########"
+curl -X POST http://jenkins.local:8080/job/ENV/build --user jenkins-user:zubur1 -H $crumb
+
